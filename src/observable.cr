@@ -2,6 +2,8 @@ require "./cancellable"
 require "./emitter"
 require "./observer"
 
+require "./operators/observable/create"
+
 include Observer
 include Cancellable
 include Emitter
@@ -39,33 +41,19 @@ module Observable
     end
   end
 
-  class Observable(T)
-    def initialize(@sub : ObservableObserver(T) -> Nil)
-    end
-
+  abstract class Observable(T)
     def self.create(subscriber : ObservableEmitter(T) -> Nil)
-      self.new ->(o : ObservableObserver(T)){
-        emitter = ObservableEmitter(T).new o
-
-        o.onSubscribe(emitter)
-
-        begin
-          subscriber.call emitter
-        rescue ex
-          emitter.onError(ex)
-        end 
-      }
-    end
-
-    def map(mapper: T -> T)
+      ObservableCreate::ObservableCreate.new subscriber
     end
 
     def |(operator : Observable(T) -> Observable(T))
       operator.call self
     end
 
+    abstract def subscribeActual(observer : ObservableObserver(T))
+
     def subscribeWith(observer : ObservableObserver(T))
-      @sub.call observer
+      subscribeActual observer
     end
 
     def subscribe(onNext : T -> Nil, onError : Exception -> Nil, onComplete : Proc(Nil))
