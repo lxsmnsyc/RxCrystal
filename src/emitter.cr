@@ -1,18 +1,19 @@
 require "./cancellable"
+require "./observer"
+
+include Cancellable
+include Observer
 
 module Emitter
-  private module CancellableAssociation
-
-  end
   private module SuccessHandler
     # Emits a success value.
     def onSuccess(x : T)
       if !cancelled
         begin
           if x == nil
-            @error.call Exception.new "onSuccess called with a nil value"
+            @observer.onError Exception.new "onSuccess called with a nil value"
           else
-            @success.call x
+            @observer.onSuccess x
           end
         ensure
           cancel
@@ -25,7 +26,7 @@ module Emitter
     def onComplete
       if !cancelled
         begin
-          @complete.call
+          @observer.onComplete
         ensure
           cancel
         end
@@ -41,7 +42,7 @@ module Emitter
       end
       if !cancelled
         begin
-          @error.call report
+          @observer.onError report
         ensure
           cancel
         end
@@ -51,12 +52,12 @@ module Emitter
     end
   end
 
-  # Super class for Emitter classes
+  # super class for Emitter classes
   class Emitter < Cancellable::Cancellable
     @linked : Cancellable::Cancellable
     def initialize
       super
-      @linked = Cancellable::BooleanCancellable.new
+      @linked = BooleanCancellable.new
     end
     
     # Returns true if the emitter is cancelled.
@@ -85,14 +86,14 @@ module Emitter
     end
   end
 
-  # Abstraction over a MaybeObserver that allows associating
+  # Abstraction over a `MaybeObserver` that allows associating
   # a resource with it.
   # 
   # Calling onSuccess(Object) multiple times has no effect.
   # Calling onComplete() multiple times has no effect.
   # Calling onError(Error) multiple times has no effect.
   class MaybeEmitter(T) < Emitter
-    def initialize(@success : T -> Nil, @complete : Proc(Nil), @error : Exception -> Nil)
+    def initialize(@observer : MaybeObserver(T))
       super()
     end
 
@@ -101,8 +102,14 @@ module Emitter
     include ErrorHandler
   end
 
+  # Abstraction over a SingleObserver that allows associating
+  # a resource with it.
+  #
+  # Calling onSuccess(Object) multiple times has no effect.
+  # Calling onError(Error) multiple times or after onSuccess
+  # has no effect.
   class SingleEmitter(T) < Emitter
-    def initialize(@success : T -> Nil, @error : Exception -> Nil)
+    def initialize(@observer : SingleObserver(T))
       super()
     end
 
@@ -110,8 +117,14 @@ module Emitter
     include ErrorHandler
   end
 
+  # Abstraction over a CompletableObserver that allows associating
+  # a resource with it.
+  #
+  # Calling onComplete() multiple times has no effect.
+  # Calling onError(Error) multiple times or after onComplete
+  # has no effect.
   class CompletableEmitter < Emitter
-    def initialize(@complete : Proc(Nil), @error : Exception -> Nil)
+    def initialize(@observer : CompletableObserver)
       super()
     end
 
@@ -120,13 +133,13 @@ module Emitter
   end
 
   class ObservableEmitter(T) < Emitter
-    def initialize(@next : T -> Nil, @error : Exception -> Nil, @complete : Proc(Nil))
+    def initialize(@observer : ObservableObserver(T))
       super()
     end
 
     def onNext(x : T)
       if !cancelled
-        @next.call x
+        @observer.onNext x
       end
     end
 
@@ -134,15 +147,3 @@ module Emitter
     include ErrorHandler
   end
 end
-
-include Emitter
-
-test = ObservableEmitter(String).new(
-  ->(x : String){ puts x },
-  ->(x : Exception){ puts x},
-  ->{ puts "Completed" },
-)
-
-test.onNext "Hello"
-test.onNext "World"
-test.onComplete
