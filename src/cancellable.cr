@@ -1,4 +1,6 @@
-# Reactive Extensions - represents a state of cancellation
+# A family of classes that represents the state of cancellation
+#
+# Used for handling Observable cancellations and subscriptions
 module Cancellable
   # Abstract class for the `Cancellable` classes
   abstract class Cancellable
@@ -141,8 +143,8 @@ module Cancellable
 
   # A `Cancellable` class that allows linking on `Cancellable` instances.
   #
-  # A LinkedCancellable will be disposed when the linked Cancellable
-  # instance is disposed and vice-versa
+  # A `LinkedCancellable` will be cancelled when the linked `Cancellable`
+  # instance is cancelled and vice-versa
   class LinkedCancellable < Cancellable
     @origin : Cancellable
     @linked : Cancellable
@@ -176,7 +178,7 @@ module Cancellable
       return false
     end
 
-    # Links to a Cancellable instance.
+    # Links to a `Cancellable` instance.
     def link(c : Cancellable)
       if !(c == self)
         if cancelled
@@ -195,7 +197,7 @@ module Cancellable
       return false
     end
 
-    # Unlinks this cancellable
+    # Unlinks this instance from any linked `Cancellable`
     def unlink
       if (!cancelled && !(@origin == @linked))
         @linked.removeListener @listener
