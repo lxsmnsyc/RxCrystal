@@ -57,6 +57,9 @@ module Observable
       }
     end
 
+    def map(mapper: T -> T)
+    end
+
     def |(operator : Observable(T) -> Observable(T))
       operator.call self
     end
@@ -73,12 +76,13 @@ module Observable
     end
   end
 end
-
 Observable::Observable(String).create(->(e: ObservableEmitter(String)){
   e.onNext("Hello")
   e.onNext("World")
   e.onComplete
-}).subscribe(
+})
+
+.subscribe(
   ->(x : String){ puts x },
   ->(x : Exception) { puts x },
   ->{ puts "Completed" }
