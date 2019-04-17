@@ -131,15 +131,3 @@ module Emitter
     include ErrorHandler
   end
 end
-
-include Emitter
-
-test = ObservableEmitter(String).new(
-  ->(x : String){ puts x },
-  ->(x : Exception){ puts x},
-  ->{ puts "Completed" },
-)
-
-test.onNext "Hello"
-test.onNext "World"
-test.onComplete
