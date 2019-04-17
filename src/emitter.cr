@@ -50,6 +50,8 @@ module Emitter
       end
     end
   end
+
+  # Super class for Emitter classes
   class Emitter < Cancellable::Cancellable
     @linked : Cancellable::Cancellable
     def initialize
@@ -67,7 +69,7 @@ module Emitter
       @linked.cancel
     end
 
-    # Set the given Cancellable as the Emitter's cancellable state.
+    # Set the given `Cancellable` as the `Emitter`'s cancellable state.
     def setCancellable(c : Cancellable::Cancellable)
       if cancelled
         c.cancel
@@ -82,6 +84,7 @@ module Emitter
       return false
     end
   end
+
   # Abstraction over a MaybeObserver that allows associating
   # a resource with it.
   # 
@@ -89,7 +92,7 @@ module Emitter
   # Calling onComplete() multiple times has no effect.
   # Calling onError(Error) multiple times has no effect.
   class MaybeEmitter(T) < Emitter
-    def initialize(@success : Proc(T, Nil), @complete : Proc(Nil), @error : Proc(Exception, Nil))
+    def initialize(@success : T -> Nil, @complete : Proc(Nil), @error : Exception -> Nil)
       super()
     end
 
@@ -99,7 +102,7 @@ module Emitter
   end
 
   class SingleEmitter(T) < Emitter
-    def initialize(@success : Proc(T, Nil), @error : Proc(Exception, Nil))
+    def initialize(@success : T -> Nil, @error : Exception -> Nil)
       super()
     end
 
@@ -108,7 +111,7 @@ module Emitter
   end
 
   class CompletableEmitter < Emitter
-    def initialize(@complete : Proc(Nil), @error : Proc(Exception, Nil))
+    def initialize(@complete : Proc(Nil), @error : Exception -> Nil)
       super()
     end
 
@@ -117,7 +120,7 @@ module Emitter
   end
 
   class ObservableEmitter(T) < Emitter
-    def initialize(@next : Proc(T, Nil), @error : Proc(Exception, Nil), @complete : Proc(Nil))
+    def initialize(@next : T -> Nil, @error : Exception -> Nil, @complete : Proc(Nil))
       super()
     end
 
@@ -131,3 +134,15 @@ module Emitter
     include ErrorHandler
   end
 end
+
+include Emitter
+
+test = ObservableEmitter(String).new(
+  ->(x : String){ puts x },
+  ->(x : Exception){ puts x},
+  ->{ puts "Completed" },
+)
+
+test.onNext "Hello"
+test.onNext "World"
+test.onComplete
