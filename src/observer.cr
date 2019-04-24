@@ -1,6 +1,6 @@
 require "./cancellable"
 
-module Observer
+module ObserverModule
   abstract class GenericObserver
     abstract def onSubscribe(x : Cancellable::Cancellable)
     abstract def onError(x : Exception)
