@@ -1,11 +1,12 @@
 require "./cancellable"
 require "./observer"
 
-include Cancellable
+include CancellableModule
 include Observer
 
-module Emitter
-  private module SuccessHandler
+module EmitterModule
+  extend self
+  private module SuccessHandler(T)
     # Emits a success value.
     def onSuccess(x : T)
       if !cancelled
@@ -53,25 +54,25 @@ module Emitter
   end
 
   # super class for Emitter classes
-  class Emitter < Cancellable::Cancellable
-    @linked : Cancellable::Cancellable
+  class Emitter < Cancellable
+    @linked : Cancellable
     def initialize
       super
       @linked = BooleanCancellable.new
     end
     
     # Returns true if the emitter is cancelled.
-    def cancelled
+    def cancelled : Bool
       @linked.cancelled
     end
 
     # Returns true if the emitter is cancelled successfully.
-    def cancel
+    def cancel : Bool
       @linked.cancel
     end
 
     # Set the given `Cancellable` as the `Emitter`'s cancellable state.
-    def setCancellable(c : Cancellable::Cancellable)
+    def setCancellable(c : Cancellable) : Bool
       if cancelled
         c.cancel
       elsif c.cancelled
@@ -97,7 +98,7 @@ module Emitter
       super()
     end
 
-    include SuccessHandler
+    include SuccessHandler(T)
     include CompletionHandler
     include ErrorHandler
   end
@@ -113,7 +114,7 @@ module Emitter
       super()
     end
 
-    include SuccessHandler
+    include SuccessHandler(T)
     include ErrorHandler
   end
 
