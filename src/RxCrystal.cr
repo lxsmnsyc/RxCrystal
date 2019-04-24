@@ -25,9 +25,11 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
-require "./cancellable"
-require "./emitter"
+require "./**"
+
 module RxCrystal
   include Cancellable
   include Emitter
+
+  include Observable
 end
