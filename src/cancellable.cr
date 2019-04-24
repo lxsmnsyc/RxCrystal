@@ -1,7 +1,8 @@
 # A family of classes that represents the state of cancellation
 #
 # Used for handling Observable cancellations and subscriptions
-module Cancellable
+module CancellableModule
+  extend self
   # Abstract class for the `Cancellable` classes
   abstract class Cancellable
     # :nodoc:
@@ -10,10 +11,10 @@ module Cancellable
     end
 
     # Returns true if the instance is cancelled.
-    abstract def cancelled
+    abstract def cancelled : Bool
 
     # Cancels the instance.
-    abstract def cancel
+    abstract def cancel : Bool
 
     # Registers a listener function to a target event dispatcher.
     # These functions are called when the `Cancellable` instance
@@ -36,21 +37,21 @@ module Cancellable
   end
 
   private class UncancelledCancellable < Cancellable
-    def cancelled
+    def cancelled : Bool
       false
     end
 
-    def cancel
+    def cancel : Bool
       false
     end
   end
 
   private class CancelledCancellable < Cancellable
-    def cancelled
+    def cancelled : Bool
       true
     end
 
-    def cancel
+    def cancel : Bool
       false
     end
   end
@@ -71,13 +72,13 @@ module Cancellable
     end
 
     # Returns true if the instance is cancelled.
-    def cancelled
+    def cancelled : Bool
       @state.cancelled
     end
 
     # Cancels the instance
-    def cancel
-      if !cancelled
+    def cancel : Bool
+      unless cancelled
         @state = CANCELLED
         dispatch
         return true
@@ -97,13 +98,13 @@ module Cancellable
     end
 
     # Returns true if the instance is cancelled.
-    def cancelled
+    def cancelled : Bool
       @state.cancelled
     end
 
     # Cancels the instances contained.
-    def cancel
-      if !cancelled
+    def cancel : Bool
+      unless cancelled
         temp = @buffer
         @buffer = [] of Cancellable
 
@@ -119,8 +120,8 @@ module Cancellable
     end
 
     # Adds the given `Cancellable` into the composite.
-    def add(c : Cancellable)
-      if !(c == self)
+    def add(c : Cancellable) : Bool
+      unless c == self
         if cancelled
           c.cancel
         else
@@ -132,8 +133,8 @@ module Cancellable
     end
 
     # Removes the given `Cancellable` from the composite.
-    def remove(c : Cancellable)
-      if !(c == self)
+    def remove(c : Cancellable) : Bool
+      unless (c == self)
         @buffer.delete c
         return true
       end
@@ -159,14 +160,14 @@ module Cancellable
     end
 
     # Returns true if the instance is cancelled.
-    def cancelled
+    def cancelled : Bool
       @origin.cancelled
     end
 
     # Cancels this instance and the linked instance.
-    def cancel
-      if !cancelled
-        if !(@origin == @linked)
+    def cancel : Bool
+      unless cancelled
+        unless @origin == @linked
           @linked.cancel
           unlink
           @linked = @origin
@@ -179,8 +180,8 @@ module Cancellable
     end
 
     # Links to a `Cancellable` instance.
-    def link(c : Cancellable)
-      if !(c == self)
+    def link(c : Cancellable) : Bool
+      unless c == self
         if cancelled
           c.cancel
         elsif c.cancelled
@@ -198,8 +199,8 @@ module Cancellable
     end
 
     # Unlinks this instance from any linked `Cancellable`
-    def unlink
-      if (!cancelled && !(@origin == @linked))
+    def unlink : Bool
+      unless cancelled || @origin == @linked
         @linked.removeListener @listener
         @listener = ->{ nil }
 
