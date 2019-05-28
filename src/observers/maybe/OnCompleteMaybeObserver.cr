@@ -2,7 +2,8 @@ require "../../observer"
 require "../../cancellable"
 require "../../subscription"
 
-class OnCompleteMaybeObserver(T) < MaybeObserver(T)
+class OnCompleteMaybeObserver(T)
+  include MaybeObserver(T)
   include Cancellable
 
   @upstream : Proc(Void)
@@ -11,6 +12,7 @@ class OnCompleteMaybeObserver(T) < MaybeObserver(T)
 
   def initialize(@upstream : Proc(Void))
     @state = BasicSubscription.new
+    @withSubscription = false
   end
 
   def cancel
