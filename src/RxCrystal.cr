@@ -25,11 +25,40 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
-require "./**"
+require "./*"
 
 module RxCrystal
-  include Cancellable
-  include Emitter
-
-  include Observable
+  Subscription
+  module Observer
+    module Single(T)
+      include SingleObserver(T)
+    end
+    module Completable
+      include CompletableObserver
+    end
+    module Maybe(T)
+      include MaybeObserver(T)
+    end
+    module Observable(T)
+      include ObservableObserver(T)
+    end
+  end
+  module Emitter
+    module Single(T)
+      include SingleEmitter(T)
+    end
+    module Completable
+      include CompletableEmitter
+    end
+    module Maybe(T)
+      include MaybeEmitter(T)
+    end
+    module Observable(T)
+      include ObservableEmitter(T)
+    end
+  end
+  Single
+  Completable
+  Maybe
+  Observable
 end

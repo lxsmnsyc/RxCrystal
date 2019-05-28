@@ -1,7 +1,3 @@
-require "./subscription"
-require "./publisher"
-require "./subscriber"
-require "./processor"
 
 module ReactiveStreams
   module Subscription

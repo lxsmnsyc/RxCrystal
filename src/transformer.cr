@@ -1,7 +1,4 @@
-require "./single"
-require "./maybe"
-require "./completable"
-require "./observable"
+require "./*"
 
 module SingleTransformer(U, D)
   abstract def apply(upstream : Single(U)) : Single(D)

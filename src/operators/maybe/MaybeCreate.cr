@@ -1,4 +1,7 @@
-require "../../*"
+require "../../subscription"
+require "../../emitter"
+require "../../observer"
+require "../../maybe"
 
 private class MaybeCreateEmitter(T)
   include Subscription
