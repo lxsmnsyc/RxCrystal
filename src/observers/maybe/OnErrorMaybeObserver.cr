@@ -6,7 +6,7 @@ class OnErrorMaybeObserver(T)
   include MaybeObserver(T)
   include Cancellable
 
-  @upstream : Proc(Exception, Nil)
+  @upstream : (Proc(Exception, Nil))?
   @withSubscription : Bool
   @state : Subscription
   @alive : Bool
