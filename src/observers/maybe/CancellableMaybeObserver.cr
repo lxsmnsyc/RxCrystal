@@ -9,14 +9,19 @@ class CancellableMaybeObserver(T)
   @upstream : MaybeObserver(T)
   @withSubscription : Bool
   @state : Subscription
+  @alive : Bool
 
   def initialize(@upstream : MaybeObserver(T))
     @state = BasicSubscription.new
     @withSubscription = false
+    @alive = true
   end
 
   def cancel
-    @state.cancel()
+    if (@alive)
+      @alive = false
+      @state.cancel()
+    end
   end
 
   def onSubscribe(x : Subscription)
@@ -29,31 +34,31 @@ class CancellableMaybeObserver(T)
   end
 
   def onSuccess(x : T)
-    if (@withSubscription && @state)
+    if (@withSubscription && @alive)
       begin
         @upstream.onSuccess(x)
       ensure
-        @state.cancel()
+        self.cancel()
       end
     end
   end
 
   def onComplete
-    if (@withSubscription && @state)
+    if (@withSubscription && @alive)
       begin
         @upstream.onComplete()
       ensure
-        @state.cancel()
+        self.cancel()
       end
     end
   end
 
   def onError(e : Exception)
-    if (@withSubscription && @state)
+    if (@withSubscription && @alive)
       begin
         @upstream.onError(e)
       ensure
-        @state.cancel()
+        self.cancel()
       end
     else
       raise e
