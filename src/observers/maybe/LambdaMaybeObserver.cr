@@ -1,6 +1,4 @@
-require "../../observer"
-require "../../cancellable"
-require "../../subscription"
+require "../../RxCrystal"
 
 class LambdaMaybeObserver(T)
   include MaybeObserver(T)
