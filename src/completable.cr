@@ -2,12 +2,12 @@ require "./transformer"
 require "./operator"
 require "./observer"
 
-abstract class CompletableSource(T)
-  abstract def subscribe(observer : CompletableObserver(T))
+module CompletableSource
+  abstract def subscribe(observer : CompletableObserver)
 end
 
 abstract class Completable
-  include CompletableSource(T)
+  include CompletableSource
 
   def |(transformer : CompletableTransformer) : Completable
     transformer.apply(self)
