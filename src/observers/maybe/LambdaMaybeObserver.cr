@@ -6,9 +6,9 @@ class LambdaMaybeObserver(T)
   include MaybeObserver(T)
   include Cancellable
 
-  @onComplete : Proc(Void)
-  @onSuccess : Proc(T, Nil)
-  @onError : Proc(Exception, Nil)
+  @onComplete : (Proc(Void))?
+  @onSuccess : (Proc(T, Nil))?
+  @onError : (Proc(Exception, Nil))?
 
   @withSubscription : Bool
   @state : Subscription
