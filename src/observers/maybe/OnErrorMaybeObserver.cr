@@ -9,14 +9,19 @@ class OnErrorMaybeObserver(T)
   @upstream : Proc(Exception, Nil)
   @withSubscription : Bool
   @state : Subscription
+  @alive : Bool
 
   def initialize(@upstream : Proc(Exception, Nil))
     @state = BasicSubscription.new
     @withSubscription = false
+    @alive = true
   end
 
   def cancel
-    @state.cancel()
+    if (@alive)
+      @alive = false
+      @state.cancel()
+    end
   end
 
   def onSubscribe(x : Subscription)
@@ -30,13 +35,13 @@ class OnErrorMaybeObserver(T)
 
   def onSuccess(x : T)
     if (@withSubscription && @alive)
-      @state.cancel()
+      self.cancel()
     end
   end
 
   def onComplete
     if (@withSubscription && @alive)
-      @state.cancel()
+      self.cancel()
     end
   end
 
@@ -45,7 +50,7 @@ class OnErrorMaybeObserver(T)
       begin
         @upstream.call(e)
       ensure
-        @state.cancel()
+        self.cancel()
       end
     else
       raise e
