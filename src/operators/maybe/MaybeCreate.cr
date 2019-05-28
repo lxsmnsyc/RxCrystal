@@ -1,7 +1,4 @@
-require "../../maybe"
-require "../../emitter"
-require "../../subscription"
-require "../../observer"
+require "../../*"
 
 private class MaybeCreateEmitter(T)
   include Subscription
@@ -23,7 +20,20 @@ private class MaybeCreateEmitter(T)
     @cleanup << cleanup
   end
 
+  def cancel
+    if (@alive)
+      self.callCleanup()
+    end
+  end
+
   def onSuccess(x : T)
+    if (@alive)
+      begin
+        @upstream.onSuccess(x)
+      ensure
+        self.callCleanup()
+      end
+    end
   end
 
   def onError(e : Exception)
@@ -31,7 +41,7 @@ private class MaybeCreateEmitter(T)
       begin
         @upstream.onError(e)
       ensure
-        callCleanup()
+        self.callCleanup()
       end
     end
   end
@@ -41,7 +51,7 @@ private class MaybeCreateEmitter(T)
       begin
         @upstream.onComplete()
       ensure
-        callCleanup()
+        self.callCleanup()
       end
     end
   end
@@ -61,7 +71,7 @@ class MaybeCreate(T) < Maybe(T)
     observer.onSubscribe(PureSubscription.new(emitter))
 
     begin
-      @onSubscribe(emitter)
+      @onSubscribe.call(emitter)
     rescue ex
       emitter.onError(ex)
     end
