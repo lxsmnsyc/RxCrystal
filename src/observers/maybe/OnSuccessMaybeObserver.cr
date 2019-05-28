@@ -1,6 +1,4 @@
-require "../../observer"
-require "../../cancellable"
-require "../../subscription"
+require "../../RxCrystal"
 
 class OnSuccessMaybeObserver(T)
   include MaybeObserver(T)
