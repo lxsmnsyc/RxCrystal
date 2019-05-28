@@ -2,7 +2,7 @@ require "./transformer"
 require "./operator"
 require "./observer"
 
-abstract class SingleSource(T)
+module SingleSource(T)
   abstract def subscribe(observer : SingleObserver(T))
 end
 
