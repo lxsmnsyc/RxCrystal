@@ -32,6 +32,10 @@ require "./observers/single/*"
 abstract class Single(T)
   include SingleSource(T)
 
+  def >>(operator : Proc(Single(T), Single(R))) : Single(R)
+    return operator(self)
+  end
+
   def subscribeWith(observer : SingleObserver(T)) : SingleObserver(T)
     subscribeActual(observer)
     return observer
