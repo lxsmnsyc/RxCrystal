@@ -1,8 +1,10 @@
-require "../../RxCrystal"
+require "../../MaybeObserver"
+require "../../Subscription"
+require "../../subscriptions/BasicSubscription"
 
 class OnSuccessMaybeObserver(T)
   include MaybeObserver(T)
-  include Cancellable
+  include Subscription
 
   @upstream : (Proc(T, Nil))?
   @withSubscription : Bool
