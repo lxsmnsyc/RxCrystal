@@ -94,3 +94,9 @@ private class SingleMap(T, R) < Single(T)
     @source.subscribe(MapObserver(T, R).new(observer, @mapper))
   end
 end
+
+def Single.map(mapper : Proc(T, R))
+  return ->(instance : Single(T)){
+    SingleMap.new(instsance, mapper)
+  }
+end
