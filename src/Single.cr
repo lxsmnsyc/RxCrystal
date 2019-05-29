@@ -24,6 +24,7 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
-require "./SingleCore"
 require "./operators/single/SingleCreate"
 require "./operators/single/SingleJust"
+require "./operators/single/SingleMap"
+require "./SingleCore"
