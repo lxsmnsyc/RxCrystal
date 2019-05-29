@@ -69,7 +69,7 @@ private class MaybeCreate(T) < Maybe(T)
   end
 
   def subscribeActual(observer : MaybeObserver(T))
-    emitter = MaybeCreateEmitter.new(observer)
+    emitter = MaybeCreateEmitter(T).new(observer)
 
     observer.onSubscribe(emitter)
 
