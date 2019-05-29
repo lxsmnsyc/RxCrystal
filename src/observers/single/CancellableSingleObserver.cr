@@ -1,10 +1,10 @@
-require "../../observer"
-require "../../cancellable"
-require "../../subscription"
+require "../../SingleObserver"
+require "../../Subscription"
+require "../../subscriptions/BasicSubscription"
 
 class CancellableSingleObserver(T)
   include SingleObserver(T)
-  include Cancellable
+  include Subscription
 
   @upstream : SingleObserver(T)
   @withSubscription : Bool
