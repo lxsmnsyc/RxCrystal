@@ -33,6 +33,27 @@ require "./Subscription"
 abstract class Observable(T)
   include ObservableSource(T)
 
+  def subscribeWith(observer : ObservableObserver(T)) : ObservableObserver(T)
+    subscribeActual(observer)
+    return observer
+  end
+
+  def subscribe(observer : ObservableObserver(T))
+    subscribeActual(observer)
+  end
+
+  def subscribe(onNext : Proc(T, Nil)) : Subscription
+    return subscribeWith(OnNextObservableObserver.new(onNext))
+  end
+
+  def subscribe(onNext : Proc(T, Nil), onError : Proc(Exception, Nil)) : Subscription
+    return subscribeWith(NextErrorObservableObserver.new(onNext, onError))
+  end
+
+  def subscribe(onNext : Proc(T, Nil), onComplete : Proc(Void), onError : Proc(Exception, Nil)) : Subscription
+    return subscribeWith(LambdaObservableObserver.new(onNext, onComplete, onError))
+  end
+
   abstract def subscribeActual(observer : ObservableObserver(T))
 end
 
