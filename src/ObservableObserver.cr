@@ -25,9 +25,9 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
-
+require "./Subscription"
 module ObservableObserver(T)
-  abstract def onSubscribe(c : Cancellable)
+  abstract def onSubscribe(c : Subscription)
   abstract def onError(x : Exception)
   abstract def onNext(x : T)
   abstract def onComplete
