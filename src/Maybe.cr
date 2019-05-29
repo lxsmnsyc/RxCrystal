@@ -29,11 +29,11 @@
 require "./MaybeObserver"
 require "./MaybeSource"
 require "./Subscription"
+require "./observers/maybe/*"
 
 
 abstract class Maybe(T)
   include MaybeSource(T)
-
 
   def subscribeWith(observer : MaybeObserver(T)) : MaybeObserver(T)
     subscribeActual(observer)
@@ -45,21 +45,15 @@ abstract class Maybe(T)
   end
 
   def subscribe(onSuccess : Proc(T, Nil)) : Subscription
-    observer = OnSuccessMaybeObserver.new(onSuccess)
-    subscribeActual(observer)
-    return observer
+    return subscribeWith(OnSuccessMaybeObserver(T).new(onSuccess))
   end
 
   def subscribe(onSuccess : Proc(T, Nil), onError : Proc(Exception, Nil)) : Subscription
-    observer = onErrorMaybeObserver.new(onSuccess, onError)
-    subscribeActual(observer)
-    return observer
+    return subscribeWith(SuccessErrorMaybeObserver(T).new(onSuccess, onError))
   end
 
   def subscribe(onSuccess : Proc(T, Nil), onComplete : Proc(Void), onError : Proc(Exception, Nil)) : Subscription
-    observer = LambdaMaybeObserver.new(onSuccess, onComplete, onError)
-    subscribeActual(observer)
-    return observer
+    return subscribeWith(LambdaMaybeObserver(T).new(onSuccess, onComplete, onError))
   end
 
   abstract def subscribeActual(observer : MaybeObserver(T))
