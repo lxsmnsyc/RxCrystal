@@ -1,8 +1,10 @@
-require "../../RxCrystal"
+require "../../MaybeObserver"
+require "../../Subscription"
+require "../../subscriptions/BasicSubscription"
 
 class LambdaMaybeObserver(T)
   include MaybeObserver(T)
-  include Cancellable
+  include Subscription
 
   @onComplete : (Proc(Void))?
   @onSuccess : (Proc(T, Nil))?
