@@ -28,7 +28,7 @@ require "../../SingleCore"
 require "../../SingleObserver"
 require "../../subscriptions/BasicSubscription"
 
-private class SingleJust(T) < Single(T)
+class SingleJust(T) < Single(T)
   def initialize(@value : T)
   end
 
@@ -41,8 +41,4 @@ private class SingleJust(T) < Single(T)
       subscription.cancel()
     end
   end
-end
-
-def Single.just(value : T)
-  return SingleJust(T).new(value)
 end
