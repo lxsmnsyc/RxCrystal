@@ -16,5 +16,5 @@ module ReactiveStreams
   module Processor(T)
     include Publisher(T)
     include Subscriber(T)
-  end
+  end 
 end
