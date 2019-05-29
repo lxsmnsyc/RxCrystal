@@ -1,10 +1,10 @@
-require "../../observer"
-require "../../cancellable"
-require "../../subscription"
+require "../../SingleObserver"
+require "../../Subscription"
+require "../../subscriptions/BasicSubscription"
 
 class OnSuccessSingleObserver(T)
   include SingleObserver(T)
-  include Cancellable
+  include Subscription
 
   @upstream : Proc(T, Nil)
   @withSubscription : Bool
