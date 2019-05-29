@@ -1,10 +1,10 @@
-require "../../observer"
-require "../../cancellable"
-require "../../subscription"
+require "../../SingleObserver"
+require "../../Subscription"
+require "../../subscriptions/BasicSubscription"
 
 class LambdaSingleObserver(T)
   include SingleObserver(T)
-  include Cancellable
+  include Subscription
 
   @onSuccess : Proc(T, Nil)
   @onError : Proc(Exception, Nil)
