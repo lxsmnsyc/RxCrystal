@@ -1,8 +1,10 @@
-require "../../RxCrystal"
+require "../../CompletableObserver"
+require "../../Subscription"
+require "../../subscriptions/BasicSubscription"
 
 class LambdaCompletableObserver(T)
   include CompletableObserver(T)
-  include Cancellable
+  include Subscription
 
   @onComplete : (Proc(Void))?
   @onSuccess : (Proc(T, Nil))?
