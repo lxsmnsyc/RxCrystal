@@ -28,9 +28,31 @@
 require "./SingleObserver"
 require "./SingleSource"
 require "./Subscription"
+require "./observers/single/*"
 
 abstract class Single(T)
   include SingleSource(T)
+
+  def subscribeWith(observer : SingleObserver(T)) : SingleObserver(T)
+    subscribeActual(observer)
+    return observer
+  end
+
+  def subscribe(observer : SingleObserver(T))
+    subscribeActual(observer)
+  end
+
+  def subscribe(onSuccess : Proc(T, Nil)) : Subscription
+    return subscribeWith(OnSuccessSingleObserver(T).new(onSuccess))
+  end
+
+  def subscribe(onEvent : Proc(T, Exception, Nil)) : Subscription
+    return subscribeWith(BiconsumerSingleObserver(T).new(onEvent))
+  end
+
+  def subscribe(onSuccess : Proc(T, Nil), onError : Proc(Exception, Nil)) : Subscription
+    return subscribeWith(LambdaSingleObserver(T).new(onSuccess, onError))
+  end
 
   abstract def subscribeActual(observer : SingleObserver(T))
 end
