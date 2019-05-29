@@ -1,7 +1,7 @@
-require "../../subscription"
-require "../../emitter"
-require "../../observer"
-require "../../maybe"
+require "../../MaybeCore"
+require "../../MaybeEmitter"
+require "../../MaybeObserver"
+require "../../Subscription"
 
 private class MaybeCreateEmitter(T)
   include Subscription
@@ -64,14 +64,14 @@ private class MaybeCreateEmitter(T)
   end
 end
 
-class MaybeCreate(T) < Maybe(T)
+private class MaybeCreate(T) < Maybe(T)
   def initialize(@onSubscribe : Proc(MaybeEmitter(T), Nil))
   end
 
   def subscribeActual(observer : MaybeObserver(T))
     emitter = MaybeCreateEmitter.new(observer)
 
-    observer.onSubscribe(PureSubscription.new(emitter))
+    observer.onSubscribe(emitter)
 
     begin
       @onSubscribe.call(emitter)
@@ -79,4 +79,9 @@ class MaybeCreate(T) < Maybe(T)
       emitter.onError(ex)
     end
   end
+end
+
+
+def Maybe.create(onSubscribe : Proc(MaybeEmitter(T), Nil))
+  return MaybeCreate(T).new(onSubscribe)
 end
