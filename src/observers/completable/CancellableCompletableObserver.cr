@@ -1,8 +1,10 @@
-require "../../RxCrystal"
+require "../../CompletableObserver"
+require "../../Subscription"
+require "../../subscriptions/BasicSubscription"
 
 class CancellableCompletableObserver(T)
   include CompletableObserver(T)
-  include Cancellable
+  include Subscription
 
   @upstream : CompletableObserver(T)
   @withSubscription : Bool
