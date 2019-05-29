@@ -86,17 +86,11 @@ private class MapObserver(T, R)
   end
 end
 
-private class SingleMap(T, R) < Single(T)
+class SingleMap(T, R) < Single(T)
   def initialize(@source : SingleSource(T), @mapper : Proc(T, R))
   end
 
   protected def subscribeActual(observer : SingleObserver(R))
     @source.subscribe(MapObserver(T, R).new(observer, @mapper))
   end
-end
-
-def Single.map(mapper : Proc(T, R))
-  return ->(instance : Single(T)){
-    SingleMap.new(instsance, mapper)
-  }
 end
