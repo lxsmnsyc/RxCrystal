@@ -24,6 +24,7 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
+require "./Single"
 require "./SingleObserver"
 require "./SingleSource"
 require "./Subscription"
@@ -32,7 +33,15 @@ require "./observers/single/*"
 abstract class Single(T)
   include SingleSource(T)
 
-  def >>(operator : Proc(Single(T), Single(R))) : Single(R)
+  def self.just(value : T) : Single(T)
+    return SingleJust(T).new(value)
+  end
+
+  def map(mapper : T -> R) : Single(R)
+    return SingleMap(T, R).new(self, mapper)
+  end
+
+  def compose(operator : Proc(Single(T), Single(R))) : Single(R)
     return operator(self)
   end
 
@@ -57,6 +66,6 @@ abstract class Single(T)
     return subscribeWith(LambdaSingleObserver(T).new(onSuccess, onError))
   end
 
-  abstract def subscribeActual(observer : SingleObserver(T))
+  abstract def subscribeActual(observer)
 end
 
