@@ -28,6 +28,7 @@
 require "./MaybeObserver"
 require "./MaybeSource"
 require "./Subscription"
+require "./observers/maybe/*"
 
 abstract class Maybe(T)
   include MaybeSource(T)
