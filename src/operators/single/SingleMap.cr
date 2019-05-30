@@ -86,7 +86,7 @@ private class SingleMapObserver(T, R)
   end
 end
 
-class SingleMap(T, R) < Single(T)
+class SingleMap(T, R) < Single(R)
   def initialize(@source : Single(T), @mapper : Proc(T, R))
   end
 
