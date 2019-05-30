@@ -6,7 +6,6 @@ class OnNextObservableObserver(T)
   include ObservableObserver(T)
   include Subscription
 
-  @upstream : (Proc(T, Nil))?
   @withSubscription : Bool
   @state : Subscription
   @alive : Bool
