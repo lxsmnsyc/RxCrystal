@@ -41,6 +41,10 @@ abstract class Single(T)
     return SingleMap(T, R).new(self, mapper)
   end
 
+  def self.never
+    return SingleNever.instance
+  end
+
   def subscribeWith(observer : SingleObserver(T)) : SingleObserver(T)
     subscribeActual(observer)
     return observer
