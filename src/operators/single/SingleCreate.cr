@@ -80,7 +80,8 @@ private class SingleCreateEmitter(T)
   end
 end
 
-private class SingleCreate(T) < Single(T)
+# :nodoc:
+class SingleCreate(T) < Single(T)
   def initialize(@onSubscribe : Proc(SingleEmitter(T), Nil))
   end
 
@@ -95,8 +96,4 @@ private class SingleCreate(T) < Single(T)
       emitter.onError(ex)
     end
   end
-end
-
-def Single.create(onSubscribe : Proc(SingleEmitter(T), Nil))
-  return SingleCreate(T).new(onSubscribe)
 end
