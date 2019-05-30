@@ -27,4 +27,5 @@
 require "./operators/single/SingleCreate"
 require "./operators/single/SingleJust"
 require "./operators/single/SingleMap"
+require "./operators/single/SingleNever"
 require "./SingleCore"
