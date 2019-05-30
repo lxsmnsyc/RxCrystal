@@ -32,7 +32,7 @@ class SingleJust(T) < Single(T)
   def initialize(@value : T)
   end
 
-  protected def subscribeActual(observer : SingleObserver(T))
+  def subscribeActual(observer : SingleObserver(T))
     subscription = BasicSubscription.new
     observer.onSubscribe(subscription)
 
