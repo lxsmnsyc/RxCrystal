@@ -31,9 +31,6 @@ require "../../subscriptions/BasicSubscription"
 class SingleNever < Single(Nil)
   @@instance : Single(Nil) = self.new
 
-  def initialize
-  end
-
   def self.instance
     @@instance
   end
