@@ -27,14 +27,21 @@
 require "../../Single"
 require "../../SingleObserver"
 require "../../Scheduler"
+require "../../subscriptions/BasicSubscription"
 # :nodoc:
 class SingleTimer < Single(Int64)
   def initialize(@delay : Float64, @scheduler : Scheduler)
   end
 
   def subscribeActual(observer : SingleObserver(Int64))
-    observer.onSubscribe(@scheduler.schedule(->{
-      observer.onSuccess(0_i64)
-    }, @delay))
+    subscription = BasicSubscription.new
+
+    observer.onSubscribe(subscription)
+
+    @scheduler.schedule(->{
+      if (subscription.alive)
+        observer.onSuccess(0_i64)
+      end
+    }, @delay)
   end
 end
