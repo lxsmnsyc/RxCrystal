@@ -84,7 +84,7 @@ private class SingleMapObserver(T, R)
     end
   end
 end
-
+# :nodoc:
 class SingleMap(T, R) < Single(R)
   def initialize(@source : Single(T), @mapper : Proc(T, R))
   end
