@@ -1,4 +1,3 @@
-# :nodoc:
 #
 # MIT License
 #
@@ -28,7 +27,7 @@
 require "../../MaybeObserver"
 require "../../Subscription"
 require "../../subscriptions/BasicSubscription"
-
+# :nodoc:
 class OnSuccessMaybeObserver(T)
   include MaybeObserver(T)
   include Subscription

@@ -1,4 +1,3 @@
-# :nodoc:
 #
 # MIT License
 #
@@ -28,7 +27,7 @@
 require "../../SingleObserver"
 require "../../Subscription"
 require "../../subscriptions/BasicSubscription"
-
+# :nodoc:
 class CancellableSingleObserver(T)
   include SingleObserver(T)
   include Subscription

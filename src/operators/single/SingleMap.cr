@@ -1,4 +1,3 @@
-# :nodoc:
 #
 # MIT License
 #
@@ -29,7 +28,7 @@ require "../../SingleCore"
 require "../../SingleSource"
 require "../../SingleObserver"
 require "../../Subscription"
-
+# :nodoc:
 private class SingleMapObserver(T, R)
   include SingleObserver(T)
   include Subscription

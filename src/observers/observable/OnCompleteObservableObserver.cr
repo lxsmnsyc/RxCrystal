@@ -1,4 +1,3 @@
-# :nodoc:
 #
 # MIT License
 #
@@ -28,7 +27,7 @@
 require "../../ObservableObserver"
 require "../../Subscription"
 require "../../subscriptions/BasicSubscription"
-
+# :nodoc:
 class OnCompleteObservableObserver(T)
   include ObservableObserver(T)
   include Subscription
