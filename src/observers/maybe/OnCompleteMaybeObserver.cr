@@ -6,7 +6,6 @@ class OnCompleteMaybeObserver(T)
   include MaybeObserver(T)
   include Subscription
 
-  @upstream : (Proc(Void))?
   @withSubscription : Bool
   @state : Subscription
   @alive : Bool
