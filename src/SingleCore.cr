@@ -25,6 +25,8 @@
 # copyright Alexis Munsayac 2019
 #
 require "./Single"
+require "./Completable"
+require "./Maybe"
 require "./SingleObserver"
 require "./SingleSource"
 require "./SingleEmitter"
@@ -35,8 +37,16 @@ require "./observers/single/*"
 abstract class Single(T)
   include SingleSource(T)
 
+  def filter(filter : Proc(T, Bool)) : Maybe(T)
+    return SingleFilter(T).new(self, filter)
+  end
+
   def self.create(onSubscribe : Proc(SingleEmitter(T), Nil)) : Single(T)
     return SingleCreate(T).new(onSubscribe)
+  end
+
+  def ignoreElement : Completable
+    return SingleIgnoreElement(T).new(self)
   end
 
   def self.just(value : T) : Single(T)
