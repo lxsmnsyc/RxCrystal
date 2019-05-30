@@ -33,16 +33,12 @@ require "./observers/single/*"
 abstract class Single(T)
   include SingleSource(T)
 
-  def self.just(value : T) : Single(T)
+  def self.just(value : T)
     return SingleJust(T).new(value)
   end
 
-  def map(mapper : T -> R) : Single(R)
+  def map(mapper : Proc(T, R)) : Single(R) forall R
     return SingleMap(T, R).new(self, mapper)
-  end
-
-  def compose(operator : Proc(Single(T), Single(R))) : Single(R)
-    return operator(self)
   end
 
   def subscribeWith(observer : SingleObserver(T)) : SingleObserver(T)
