@@ -27,6 +27,7 @@
 require "./Single"
 require "./SingleObserver"
 require "./SingleSource"
+require "./SingleEmitter"
 require "./Subscription"
 require "./Scheduler"
 require "./observers/single/*"
@@ -34,7 +35,11 @@ require "./observers/single/*"
 abstract class Single(T)
   include SingleSource(T)
 
-  def self.just(value : T)
+  def self.create(onSubscribe : Proc(SingleEmitter(T), Nil)) : Single(T)
+    return SingleCreate(T).new(onSubscribe)
+  end
+
+  def self.just(value : T) : Single(T)
     return SingleJust(T).new(value)
   end
 
