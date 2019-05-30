@@ -6,7 +6,6 @@ class CancellableObservableObserver(T)
   include ObservableObserver(T)
   include Subscription
 
-  @upstream : ObservableObserver(T)
   @withSubscription : Bool
   @state : Subscription
   @alive : Bool
