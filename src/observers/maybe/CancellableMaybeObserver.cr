@@ -6,7 +6,6 @@ class CancellableMaybeObserver(T)
   include MaybeObserver(T)
   include Subscription
 
-  @upstream : MaybeObserver(T)
   @withSubscription : Bool
   @state : Subscription
   @alive : Bool
