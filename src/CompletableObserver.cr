@@ -26,6 +26,7 @@
 # copyright Alexis Munsayac 2019
 #
 require "./Subscription"
+
 module CompletableObserver
   abstract def onSubscribe(c : Subscription)
   abstract def onError(x : Exception)

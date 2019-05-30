@@ -52,4 +52,3 @@ abstract class Completable
 
   abstract def subscribeActual(observer : CompletableObserver)
 end
-

@@ -40,7 +40,7 @@ private class SingleCreateEmitter(T)
 
   private def callCleanup
     @cleanup.each do |x|
-      x.call()
+      x.call
     end
     @alive = false
   end
@@ -51,7 +51,7 @@ private class SingleCreateEmitter(T)
 
   def cancel
     if (@alive)
-      self.callCleanup()
+      self.callCleanup
     end
   end
 
@@ -60,7 +60,7 @@ private class SingleCreateEmitter(T)
       begin
         @upstream.onSuccess(x)
       ensure
-        self.callCleanup()
+        self.callCleanup
       end
     end
   end
@@ -70,7 +70,7 @@ private class SingleCreateEmitter(T)
       begin
         @upstream.onError(e)
       ensure
-        self.callCleanup()
+        self.callCleanup
       end
     end
   end
@@ -96,7 +96,6 @@ private class SingleCreate(T) < Single(T)
     end
   end
 end
-
 
 def Single.create(onSubscribe : Proc(SingleEmitter(T), Nil))
   return SingleCreate(T).new(onSubscribe)

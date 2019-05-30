@@ -22,13 +22,13 @@ class LambdaSingleObserver(T)
   def cancel
     if (@alive)
       @alive = false
-      @state.cancel()
+      @state.cancel
     end
   end
 
   def onSubscribe(x : Subscription)
     if (@withSubscription)
-      x.cancel()
+      x.cancel
     else
       @withSubscription = true
       @state = x
@@ -40,7 +40,7 @@ class LambdaSingleObserver(T)
       begin
         @onSuccess.call(x)
       ensure
-        self.cancel()
+        self.cancel
       end
     end
   end
@@ -50,7 +50,7 @@ class LambdaSingleObserver(T)
       begin
         @onError.call(e)
       ensure
-        self.cancel()
+        self.cancel
       end
     else
       raise e

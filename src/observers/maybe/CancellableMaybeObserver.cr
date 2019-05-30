@@ -19,13 +19,13 @@ class CancellableMaybeObserver(T)
   def cancel
     if (@alive)
       @alive = false
-      @state.cancel()
+      @state.cancel
     end
   end
 
   def onSubscribe(x : Subscription)
     if (@withSubscription)
-      x.cancel()
+      x.cancel
     else
       @withSubscription = true
       @state = x
@@ -37,7 +37,7 @@ class CancellableMaybeObserver(T)
       begin
         @upstream.onSuccess(x)
       ensure
-        self.cancel()
+        self.cancel
       end
     end
   end
@@ -45,9 +45,9 @@ class CancellableMaybeObserver(T)
   def onComplete
     if (@withSubscription && @alive)
       begin
-        @upstream.onComplete()
+        @upstream.onComplete
       ensure
-        self.cancel()
+        self.cancel
       end
     end
   end
@@ -57,7 +57,7 @@ class CancellableMaybeObserver(T)
       begin
         @upstream.onError(e)
       ensure
-        self.cancel()
+        self.cancel
       end
     else
       raise e

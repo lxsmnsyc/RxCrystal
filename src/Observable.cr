@@ -57,4 +57,3 @@ abstract class Observable(T)
 
   abstract def subscribeActual(observer : ObservableObserver(T))
 end
-

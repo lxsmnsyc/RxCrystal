@@ -14,7 +14,7 @@ private class MaybeCreateEmitter(T)
 
   private def callCleanup
     @cleanup.each do |x|
-      x.call()
+      x.call
     end
     @alive = false
   end
@@ -25,7 +25,7 @@ private class MaybeCreateEmitter(T)
 
   def cancel
     if (@alive)
-      self.callCleanup()
+      self.callCleanup
     end
   end
 
@@ -34,7 +34,7 @@ private class MaybeCreateEmitter(T)
       begin
         @upstream.onSuccess(x)
       ensure
-        self.callCleanup()
+        self.callCleanup
       end
     end
   end
@@ -44,7 +44,7 @@ private class MaybeCreateEmitter(T)
       begin
         @upstream.onError(e)
       ensure
-        self.callCleanup()
+        self.callCleanup
       end
     end
   end
@@ -52,9 +52,9 @@ private class MaybeCreateEmitter(T)
   def onComplete
     if (@alive)
       begin
-        @upstream.onComplete()
+        @upstream.onComplete
       ensure
-        self.callCleanup()
+        self.callCleanup
       end
     end
   end
@@ -80,7 +80,6 @@ private class MaybeCreate(T) < Maybe(T)
     end
   end
 end
-
 
 def Maybe.create(onSubscribe : Proc(MaybeEmitter(T), Nil))
   return MaybeCreate(T).new(onSubscribe)

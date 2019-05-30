@@ -38,7 +38,7 @@ class SingleJust(T) < Single(T)
 
     if (subscription.alive)
       observer.onSuccess(@value)
-      subscription.cancel()
+      subscription.cancel
     end
   end
 end

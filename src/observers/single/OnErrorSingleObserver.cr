@@ -20,13 +20,13 @@ class OnErrorSingleObserver(T)
   def cancel
     if (@alive)
       @alive = false
-      @state.cancel()
+      @state.cancel
     end
   end
 
   def onSubscribe(x : Subscription)
     if (@withSubscription)
-      x.cancel()
+      x.cancel
     else
       @withSubscription = true
       @state = x
@@ -35,7 +35,7 @@ class OnErrorSingleObserver(T)
 
   def onSuccess(x : T)
     if (@withSubscription && @alive)
-      self.cancel()
+      self.cancel
     end
   end
 
@@ -44,7 +44,7 @@ class OnErrorSingleObserver(T)
       begin
         @upstream.call(e)
       ensure
-        self.cancel()
+        self.cancel
       end
     else
       raise e

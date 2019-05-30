@@ -19,26 +19,25 @@ class LambdaCompletableObserver(T)
   def cancel
     if (@alive)
       @alive = false
-      @state.cancel()
+      @state.cancel
     end
   end
 
   def onSubscribe(x : Subscription)
     if (@withSubscription)
-      x.cancel()
+      x.cancel
     else
       @withSubscription = true
       @state = x
     end
   end
 
-
   def onComplete
     if (@withSubscription && @alive)
       begin
-        @onComplete.call()
+        @onComplete.call
       ensure
-        self.cancel()
+        self.cancel
       end
     end
   end
@@ -48,7 +47,7 @@ class LambdaCompletableObserver(T)
       begin
         @onError.call(e)
       ensure
-        self.cancel()
+        self.cancel
       end
     else
       raise e

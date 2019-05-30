@@ -37,7 +37,6 @@ private class SingleMapObserver(T, R)
   @alive : Bool
   @ref : Subscription
 
-
   def initialize(@upstream : SingleObserver(R), @mapper : Proc(T, R))
     @withSubscription = false
     @alive = true
@@ -47,7 +46,7 @@ private class SingleMapObserver(T, R)
 
   def onSubscribe(s : Subscription)
     if (@withSubscription)
-      s.cancel()
+      s.cancel
     else
       @withSubscription = true
       @ref = s
@@ -57,7 +56,7 @@ private class SingleMapObserver(T, R)
   def cancel
     if (@alive)
       if (@withSubscription)
-        @ref.cancel()
+        @ref.cancel
       end
       @alive = false
     end

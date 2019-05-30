@@ -1,4 +1,3 @@
-
 class BasicSubscription
   include Subscription
 

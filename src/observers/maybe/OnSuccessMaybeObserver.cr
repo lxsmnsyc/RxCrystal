@@ -19,13 +19,13 @@ class OnSuccessMaybeObserver(T)
   def cancel
     if (@alive)
       @alive = false
-      @state.cancel()
+      @state.cancel
     end
   end
 
   def onSubscribe(x : Subscription)
     if (@withSubscription)
-      x.cancel()
+      x.cancel
     else
       @withSubscription = true
       @state = x
@@ -37,20 +37,20 @@ class OnSuccessMaybeObserver(T)
       begin
         @upstream.call(x)
       ensure
-        self.cancel()
+        self.cancel
       end
     end
   end
 
   def onComplete
     if (@withSubscription && @alive)
-      self.cancel()
+      self.cancel
     end
   end
 
   def onError(e : Exception)
     if (@withSubscription && @alive)
-      self.cancel()
+      self.cancel
     else
       raise e
     end

@@ -56,4 +56,3 @@ abstract class Maybe(T)
 
   abstract def subscribeActual(observer : MaybeObserver(T))
 end
-
