@@ -1,4 +1,8 @@
-require "./observer"
+# :nodoc:
+require "./SingleObserver"
+require "./CompletableObserver"
+require "./MaybeObserver"
+require "./ObservableObserver"
 
 module SingleOperator(D, U)
   abstract def apply(upstream : SingleObserver(D)) : SingleObserver(U)

@@ -1,3 +1,4 @@
+# :nodoc:
 require "./*"
 
 module SingleTransformer(U, D)

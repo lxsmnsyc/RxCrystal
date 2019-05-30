@@ -1,3 +1,4 @@
+# :nodoc:
 #
 # MIT License
 #
