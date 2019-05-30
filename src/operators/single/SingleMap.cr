@@ -41,7 +41,7 @@ private class SingleMapObserver(T, R)
   def initialize(@upstream : SingleObserver(R), @mapper : Proc(T, R))
     @withSubscription = false
     @alive = true
-    @ref = self
+    @ref = BasicSubscription.new
     @upstream.onSubscribe(self)
   end
 
@@ -87,10 +87,10 @@ private class SingleMapObserver(T, R)
 end
 
 class SingleMap(T, R) < Single(T)
-  def initialize(@source : SingleSource(T), @mapper : Proc(T, R))
+  def initialize(@source : Single(T), @mapper : Proc(T, R))
   end
 
-  protected def subscribeActual(observer : SingleObserver(R))
-    @source.subscribe(SingleMapObserver(T, R).new(observer, @mapper))
+  def subscribeActual(observer : SingleObserver(R))
+    @source.subscribeActual(SingleMapObserver(T, R).new(observer, @mapper))
   end
 end
