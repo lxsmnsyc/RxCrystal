@@ -6,7 +6,6 @@ class OnCompleteCompletableObserver(T)
   include CompletableObserver(T)
   include Subscription
 
-  @upstream : (Proc(Void))?
   @withSubscription : Bool
   @state : Subscription
   @alive : Bool
