@@ -6,8 +6,6 @@ class NextErrorObservableObserver(T)
   include ObservableObserver(T)
   include Subscription
 
-  @onNext : (Proc(T, Nil))?
-  @onError : (Proc(Exception, Nil))?
   @withSubscription : Bool
   @state : Subscription
   @alive : Bool
