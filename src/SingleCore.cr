@@ -28,6 +28,7 @@ require "./Single"
 require "./SingleObserver"
 require "./SingleSource"
 require "./Subscription"
+require "./Scheduler"
 require "./observers/single/*"
 
 abstract class Single(T)
@@ -41,8 +42,12 @@ abstract class Single(T)
     return SingleMap(T, R).new(self, mapper)
   end
 
-  def self.never
+  def self.never : Single(Nil)
     return SingleNever.instance
+  end
+
+  def self.timer(delay : Float64, scheduler : Scheduler) : Single(Int64)
+    return SingleTimer.new(delay, scheduler)
   end
 
   def subscribeWith(observer : SingleObserver(T)) : SingleObserver(T)
@@ -68,4 +73,3 @@ abstract class Single(T)
 
   abstract def subscribeActual(observer)
 end
-
