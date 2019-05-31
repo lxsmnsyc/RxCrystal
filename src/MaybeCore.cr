@@ -33,6 +33,10 @@ require "./observers/maybe/*"
 abstract class Maybe(T)
   include MaybeSource(T)
 
+  def self.just(value : T) : Maybe(T)
+    return MaybeJust(T).new(value)
+  end
+
   def lift(operator : Proc(MaybeObserver(R), MaybeObserver(T))) : Maybe(R) forall R
     return MaybeLift(T, R).new(self, operator)
   end
@@ -62,5 +66,5 @@ abstract class Maybe(T)
     return subscribeWith(LambdaMaybeObserver(T).new(onSuccess, onComplete, onError))
   end
 
-  abstract def subscribeActual(observer : MaybeObserver(T))
+  abstract def subscribeActual(observer)
 end
