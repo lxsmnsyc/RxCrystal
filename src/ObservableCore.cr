@@ -54,5 +54,5 @@ abstract class Observable(T)
     return subscribeWith(LambdaObservableObserver(T).new(onNext, onComplete, onError))
   end
 
-  abstract def subscribeActual(observer : ObservableObserver(T))
+  abstract def subscribeActual(observer)
 end
