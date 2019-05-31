@@ -33,6 +33,18 @@ require "./Subscription"
 abstract class Completable
   include CompletableSource
 
+  def complete : Completable
+    return CompletableComplete.instance
+  end
+
+  def lift(operator : Proc(CompletableObserver, CompletableObserver)) : Completable
+    return CompletableLift.new(self, operator)
+  end
+
+  def never : Completable
+    return CompletableNever.instance
+  end
+
   def subscribeWith(observer : CompletableObserver) : CompletableObserver
     subscribeActual(observer)
     return observer
