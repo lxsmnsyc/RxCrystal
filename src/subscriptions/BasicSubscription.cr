@@ -1,4 +1,3 @@
-# :nodoc:
 #
 # MIT License
 #
@@ -25,6 +24,9 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
+require "../Subscription"
+
+# :nodoc:
 class BasicSubscription
   include Subscription
 
