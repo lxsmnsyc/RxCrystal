@@ -27,6 +27,7 @@
 require "../../SingleObserver"
 require "../../Subscription"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class BiconsumerSingleObserver(T)
   include SingleObserver(T)

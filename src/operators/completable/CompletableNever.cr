@@ -27,6 +27,7 @@
 require "../../CompletableCore"
 require "../../CompletableObserver"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class CompletableNever < Completable
   @@instance : Completable = self.new

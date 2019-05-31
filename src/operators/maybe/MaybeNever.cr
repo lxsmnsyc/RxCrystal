@@ -27,6 +27,7 @@
 require "../../MaybeCore"
 require "../../MaybeObserver"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class MaybeNever < Maybe(Nil)
   @@instance : Maybe(Nil) = self.new

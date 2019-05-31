@@ -28,6 +28,7 @@ require "../../SingleCore"
 require "../../SingleSource"
 require "../../SingleObserver"
 require "../../Subscription"
+
 # :nodoc:
 private class SingleMapObserver(T, R)
   include SingleObserver(T)
@@ -84,6 +85,7 @@ private class SingleMapObserver(T, R)
     end
   end
 end
+
 # :nodoc:
 class SingleMap(T, R) < Single(R)
   def initialize(@source : Single(T), @mapper : Proc(T, R))

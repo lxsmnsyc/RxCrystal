@@ -25,10 +25,5 @@
 # copyright Alexis Munsayac 2019
 #
 require "./operators/single/SingleCreate"
-require "./operators/single/SingleFilter"
-require "./operators/single/SingleIgnoreElement"
-require "./operators/single/SingleJust"
-require "./operators/single/SingleMap"
-require "./operators/single/SingleNever"
-require "./operators/single/SingleTimer"
+require "./operators/single/*"
 require "./SingleCore"

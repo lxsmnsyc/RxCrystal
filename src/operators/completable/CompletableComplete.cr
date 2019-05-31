@@ -27,6 +27,7 @@
 require "../../Completable"
 require "../../CompletableObserver"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class CompletableComplete < Completable
   def subscribeActual(observer : CompletableObserver)
@@ -34,7 +35,7 @@ class CompletableComplete < Completable
     observer.onSubscribe(subscription)
 
     if (subscription.alive)
-      observer.onComplete()
+      observer.onComplete
       subscription.cancel
     end
   end

@@ -28,6 +28,7 @@ require "../../SingleCore"
 require "../../SingleEmitter"
 require "../../SingleObserver"
 require "../../Subscription"
+
 # :nodoc:
 private class SingleCreateEmitter(T)
   include Subscription

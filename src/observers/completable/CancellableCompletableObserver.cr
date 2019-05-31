@@ -1,4 +1,3 @@
-
 #
 # MIT License
 #
@@ -28,6 +27,7 @@
 require "../../CompletableObserver"
 require "../../Subscription"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class CancellableCompletableObserver
   include CompletableObserver

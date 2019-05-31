@@ -27,6 +27,7 @@
 require "../../MaybeCore"
 require "../../MaybeObserver"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class MaybeJust(T) < Maybe(T)
   def initialize(@value : T)

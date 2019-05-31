@@ -27,6 +27,7 @@
 require "../../Maybe"
 require "../../MaybeObserver"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class MaybeComplete < Maybe(Nil)
   def subscribeActual(observer : MaybeObserver)
@@ -34,7 +35,7 @@ class MaybeComplete < Maybe(Nil)
     observer.onSubscribe(subscription)
 
     if (subscription.alive)
-      observer.onComplete()
+      observer.onComplete
       subscription.cancel
     end
   end

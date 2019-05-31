@@ -27,6 +27,7 @@
 require "../../ObservableObserver"
 require "../../Subscription"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class OnErrorObservableObserver(T)
   include ObservableObserver(T)

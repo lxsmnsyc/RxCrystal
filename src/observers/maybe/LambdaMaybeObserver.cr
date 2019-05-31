@@ -27,6 +27,7 @@
 require "../../MaybeObserver"
 require "../../Subscription"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class LambdaMaybeObserver(T)
   include MaybeObserver(T)

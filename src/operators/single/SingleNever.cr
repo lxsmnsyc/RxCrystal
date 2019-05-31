@@ -27,6 +27,7 @@
 require "../../SingleCore"
 require "../../SingleObserver"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class SingleNever < Single(Nil)
   @@instance : Single(Nil) = self.new

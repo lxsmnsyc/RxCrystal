@@ -27,6 +27,7 @@
 require "../../SingleCore"
 require "../../SingleObserver"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class SingleJust(T) < Single(T)
   def initialize(@value : T)

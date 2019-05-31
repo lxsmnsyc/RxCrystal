@@ -27,6 +27,7 @@
 require "../../SingleObserver"
 require "../../Subscription"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class LambdaSingleObserver(T)
   include SingleObserver(T)

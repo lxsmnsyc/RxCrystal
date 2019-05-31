@@ -27,6 +27,7 @@
 require "../../CompletableObserver"
 require "../../Subscription"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class OnCompleteCompletableObserver
   include CompletableObserver

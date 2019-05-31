@@ -28,6 +28,7 @@ require "../../Single"
 require "../../SingleObserver"
 require "../../Scheduler"
 require "../../subscriptions/BasicSubscription"
+
 # :nodoc:
 class SingleTimer < Single(Int64)
   def initialize(@delay : Float64, @scheduler : Scheduler)
