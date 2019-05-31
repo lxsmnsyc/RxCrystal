@@ -25,7 +25,19 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
-require "./*"
+require "./Subscription"
+require "./SingleObserver"
+require "./CompletableObserver"
+require "./MaybeObserver"
+require "./ObservableObserver"
+require "./SingleEmitter"
+require "./CompletableEmitter"
+require "./MaybeEmitter"
+require "./ObservableEmitter"
+require "./Single"
+require "./Completable"
+require "./Maybe"
+require "./Observable"
 
 module RxCrystal
   Subscription
