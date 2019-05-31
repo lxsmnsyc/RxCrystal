@@ -34,6 +34,18 @@ require "./observers/maybe/*"
 abstract class Maybe(T)
   include MaybeSource(T)
 
+  def self.amb(sources : Array(MaybeSource(T))) : Maybe(T)
+    return MaybeAmbArray(T).new(sources)
+  end
+
+  def self.amb(sources : Enumerable(MaybeSource(T))) : Maybe(T)
+    return MaybeAmbEnumerable(T).new(sources)
+  end
+
+  def self.amb(sources : Indexable(MaybeSource(T))) : Maybe(T)
+    return MaybeAmbIndexable(T).new(sources)
+  end
+
   def complete : Maybe(Nil)
     return MaybeComplete.instance
   end
