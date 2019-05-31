@@ -24,12 +24,18 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
-require "../../MaybeCore"
+require "../../Maybe"
 require "../../MaybeObserver"
 require "../../subscriptions/BasicSubscription"
 
 # :nodoc:
 class MaybeComplete < Maybe(Nil)
+  @@instance : Maybe(Nil) = self.new
+
+  def self.instance
+    @@instance
+  end
+
   def subscribeActual(observer : MaybeObserver)
     subscription = BasicSubscription.new
     observer.onSubscribe(subscription)
