@@ -25,4 +25,4 @@
 # copyright Alexis Munsayac 2019
 #
 require "./MaybeCore"
-require "./operators/maybe/MaybeCreate"
+require "./operators/maybe/*"
