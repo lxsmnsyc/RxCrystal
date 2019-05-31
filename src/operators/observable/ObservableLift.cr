@@ -34,7 +34,7 @@ class ObservableLift(T, R) < Observable(R)
   def initialize(@source : Observable(T), @operator : Proc(ObservableObserver(R), ObservableObserver(T)))
   end
 
-  def subscribeActual(observer : ObservableObserver(R))
+  def subscribeActual(observer : ObservableObserver(T))
     sr = Nil
     begin
       sr = @operator.call(observer)
