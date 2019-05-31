@@ -25,35 +25,5 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
-
-require "./ObservableObserver"
-require "./ObservableSource"
-require "./Subscription"
-require "./observers/observable/*"
-
-abstract class Observable(T)
-  include ObservableSource(T)
-
-  def subscribeWith(observer : ObservableObserver(T)) : ObservableObserver(T)
-    subscribeActual(observer)
-    return observer
-  end
-
-  def subscribe(observer : ObservableObserver(T))
-    subscribeActual(observer)
-  end
-
-  def subscribe(onNext : Proc(T, Nil)) : Subscription
-    return subscribeWith(OnNextObservableObserver(T).new(onNext))
-  end
-
-  def subscribe(onNext : Proc(T, Nil), onError : Proc(Exception, Nil)) : Subscription
-    return subscribeWith(NextErrorObservableObserver(T).new(onNext, onError))
-  end
-
-  def subscribe(onNext : Proc(T, Nil), onComplete : Proc(Void), onError : Proc(Exception, Nil)) : Subscription
-    return subscribeWith(LambdaObservableObserver(T).new(onNext, onComplete, onError))
-  end
-
-  abstract def subscribeActual(observer : ObservableObserver(T))
-end
+require "./ObservableCore"
+require "./operators/observable/*"
