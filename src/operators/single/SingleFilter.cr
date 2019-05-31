@@ -86,6 +86,8 @@ private class SingleFilterObserver(T)
       ensure
         cancel()
       end
+    else
+      raise(e)
     end
   end
 end
