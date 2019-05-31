@@ -81,6 +81,8 @@ private class SingleIgnoreElementObserver(T)
       ensure
         cancel()
       end
+    else
+      raise(e)
     end
   end
 end
