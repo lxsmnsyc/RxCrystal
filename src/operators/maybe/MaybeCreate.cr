@@ -1,4 +1,4 @@
-require "../../MaybeCore"
+require "../../Maybe"
 require "../../MaybeEmitter"
 require "../../MaybeObserver"
 require "../../Subscription"
