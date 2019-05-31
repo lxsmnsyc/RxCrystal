@@ -30,6 +30,12 @@ require "../../subscriptions/BasicSubscription"
 
 # :nodoc:
 class CompletableComplete < Completable
+  @@instance : Completable = self.new
+
+  def self.instance
+    @@instance
+  end
+
   def subscribeActual(observer : CompletableObserver)
     subscription = BasicSubscription.new
     observer.onSubscribe(subscription)
