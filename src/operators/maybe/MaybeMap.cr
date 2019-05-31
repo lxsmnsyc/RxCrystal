@@ -63,16 +63,6 @@ private class MaybeMapObserver(T, R)
     end
   end
 
-  def onComplete
-    if (@withSubscription && @alive)
-      begin
-        @upstream.onComplete
-      ensure
-        cancel
-      end
-    end
-  end
-
   def onSuccess(value : T)
     if (@withSubscription && @alive)
       begin
@@ -80,7 +70,7 @@ private class MaybeMapObserver(T, R)
       rescue ex
         @upstream.onError(ex)
       ensure
-        cancel
+        cancel()
       end
     end
   end
