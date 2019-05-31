@@ -90,5 +90,5 @@ abstract class Single(T)
     return subscribeWith(LambdaSingleObserver(T).new(onSuccess, onError))
   end
 
-  abstract def subscribeActual(observer)
+  abstract def subscribeActual(observer : SingleObserver(R)) forall R
 end
