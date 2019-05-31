@@ -33,6 +33,14 @@ require "./observers/maybe/*"
 abstract class Maybe(T)
   include MaybeSource(T)
 
+  def lift(operator : Proc(MaybeObserver(R), MaybeObserver(T))) : Maybe(R) forall R
+    return MaybeLift(T, R).new(self, operator)
+  end
+
+  def map(mapper : Proc(T, R)) : Maybe(R) forall R
+    return MaybeMap(T, R).new(self, mapper)
+  end
+
   def subscribeWith(observer : MaybeObserver(T)) : MaybeObserver(T)
     subscribeActual(observer)
     return observer
