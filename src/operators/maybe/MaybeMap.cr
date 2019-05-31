@@ -82,6 +82,8 @@ private class MaybeMapObserver(T, R)
       ensure
         cancel()
       end
+    else
+      raise(e)
     end
   end
 end
