@@ -53,6 +53,10 @@ abstract class Single(T)
     return SingleJust(T).new(value)
   end
 
+  def lift(operator : Proc(SingleObserver(R), SingleObserver(T))) : Single(R) forall R
+    return SingleLift(T, R).new(self, operator)
+  end
+
   def map(mapper : Proc(T, R)) : Single(R) forall R
     return SingleMap(T, R).new(self, mapper)
   end
