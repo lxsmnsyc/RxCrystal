@@ -82,6 +82,8 @@ private class SingleMapObserver(T, R)
       ensure
         cancel()
       end
+    else
+      raise(e)
     end
   end
 end
