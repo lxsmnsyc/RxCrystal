@@ -24,5 +24,10 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
+require "./operators/maybe/MaybeComplete"
+require "./operators/maybe/MaybeCreate"
+require "./operators/maybe/MaybeJust"
+require "./operators/maybe/MaybeLift"
+require "./operators/maybe/MaybeMap"
+require "./operators/maybe/MaybeNever"
 require "./MaybeCore"
-require "./operators/maybe/*"
