@@ -24,7 +24,7 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
-require "../../SingleCore"
+require "../../Single"
 require "../../SingleEmitter"
 require "../../SingleObserver"
 require "../../Subscription"
