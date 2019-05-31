@@ -37,6 +37,18 @@ require "./observers/single/*"
 abstract class Single(T)
   include SingleSource(T)
 
+  def self.amb(sources : Array(SingleSource(T))) : Single(T)
+    return SingleAmbArray(T).new(sources)
+  end
+
+  def self.amb(sources : Enumerable(SingleSource(T))) : Single(T)
+    return SingleAmbEnumerable(T).new(sources)
+  end
+
+  def self.amb(sources : Indexable(SingleSource(T))) : Single(T)
+    return SingleAmbIndexable(T).new(sources)
+  end
+
   def filter(filter : Proc(T, Bool)) : Maybe(T)
     return SingleFilter(T).new(self, filter)
   end
