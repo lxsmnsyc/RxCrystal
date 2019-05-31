@@ -25,5 +25,5 @@
 # author Alexis Munsayac <alexis.munsayac@gmail.com>
 # copyright Alexis Munsayac 2019
 #
-require "./ObservableCore"
 require "./operators/observable/*"
+require "./ObservableCore"
