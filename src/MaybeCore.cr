@@ -27,11 +27,20 @@
 #
 require "./MaybeObserver"
 require "./MaybeSource"
+require "./MaybeEmitter"
 require "./Subscription"
 require "./observers/maybe/*"
 
 abstract class Maybe(T)
   include MaybeSource(T)
+
+  def complete : Maybe(Nil)
+    return MaybeComplete.instance
+  end
+
+  def self.create(onSubscribe : Proc(MaybeEmitter(T), Nil)) : Maybe(T)
+    return MaybeCreate.new(onSubscribe)
+  end
 
   def self.just(value : T) : Maybe(T)
     return MaybeJust(T).new(value)
@@ -43,6 +52,10 @@ abstract class Maybe(T)
 
   def map(mapper : Proc(T, R)) : Maybe(R) forall R
     return MaybeMap(T, R).new(self, mapper)
+  end
+
+  def never : Maybe(Nil)
+    return MaybeNever.instance
   end
 
   def subscribeWith(observer : MaybeObserver(T)) : MaybeObserver(T)
