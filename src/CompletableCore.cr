@@ -45,6 +45,17 @@ abstract class Completable
     return CompletableNever.instance
   end
 
+  def self.wrap(source : CompletableSource) : Completable
+    if (source.is_a?(Completable))
+      return source
+    end
+    return CompletableFromSource.new(source)
+  end
+
+  def compose(transformer : Proc(Completable, CompletableSource)) : Completable
+    return wrap(transformer.call(self))
+  end
+
   def subscribeWith(observer : CompletableObserver) : CompletableObserver
     subscribeActual(observer)
     return observer
@@ -55,11 +66,11 @@ abstract class Completable
   end
 
   def subscribe(onComplete : Proc(T, Nil)) : Subscription
-    return subscribeWith(OnCompleteCompletableObserver(T).new(onComplete))
+    return subscribeWith(OnCompleteCompletableObserver.new(onComplete))
   end
 
   def subscribe(onComplete : Proc(T, Nil), onError : Proc(Exception, Nil)) : Subscription
-    return subscribeWith(LambdaCompletableObserver(T).new(onComplete, onError))
+    return subscribeWith(LambdaCompletableObserver.new(onComplete, onError))
   end
 
   abstract def subscribeActual(observer : CompletableObserver)
