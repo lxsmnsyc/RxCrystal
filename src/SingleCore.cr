@@ -49,28 +49,12 @@ abstract class Single(T)
     return SingleAmbIndexable(T).new(sources)
   end
 
-  def filter(filter : Proc(T, Bool)) : Maybe(T)
-    return SingleFilter(T).new(self, filter)
-  end
-
   def self.create(onSubscribe : Proc(SingleEmitter(T), Nil)) : Single(T)
     return SingleCreate(T).new(onSubscribe)
   end
 
-  def ignoreElement : Completable
-    return SingleIgnoreElement(T).new(self)
-  end
-
   def self.just(value : T) : Single(T)
     return SingleJust(T).new(value)
-  end
-
-  def lift(operator : Proc(SingleObserver(R), SingleObserver(T))) : Single(R) forall R
-    return SingleLift(T, R).new(self, operator)
-  end
-
-  def map(mapper : Proc(T, R)) : Single(R) forall R
-    return SingleMap(T, R).new(self, mapper)
   end
 
   def self.never : Single(Nil)
@@ -79,6 +63,33 @@ abstract class Single(T)
 
   def self.timer(delay : Float64, scheduler : Scheduler) : Single(Int64)
     return SingleTimer.new(delay, scheduler)
+  end
+
+  def self.wrap(source : SingleSource(T)) : Single(T)
+    if (source.is_a?(Single(T)))
+      return source
+    end
+    return SingleFromSource(T).new(source)
+  end
+
+  def compose(transformer : Proc(Single(T), SingleSource(R))) : Single(R) forall R
+    return wrap(transformer.call(self))
+  end
+
+  def filter(filter : Proc(T, Bool)) : Maybe(T)
+    return SingleFilter(T).new(self, filter)
+  end
+
+  def ignoreElement : Completable
+    return SingleIgnoreElement(T).new(self)
+  end
+
+  def lift(operator : Proc(SingleObserver(R), SingleObserver(T))) : Single(R) forall R
+    return SingleLift(T, R).new(self, operator)
+  end
+
+  def map(mapper : Proc(T, R)) : Single(R) forall R
+    return SingleMap(T, R).new(self, mapper)
   end
 
   def subscribeWith(observer : SingleObserver(T)) : SingleObserver(T)
