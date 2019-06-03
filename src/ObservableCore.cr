@@ -33,6 +33,17 @@ require "./observers/observable/*"
 abstract class Observable(T)
   include ObservableSource(T)
 
+  def self.wrap(source : ObservableSource(T)) : Observable(T)
+    if (source.is_a?(Observable(T)))
+      return source
+    end
+    return ObservableFromSource(T).new(source)
+  end
+
+  def compose(transformer : Proc(Observable(T), ObservableSource(R))) : Observable(R) forall R
+    return wrap(transformer.call(self))
+  end
+
   def subscribeWith(observer : ObservableObserver(T)) : ObservableObserver(T)
     subscribeActual(observer)
     return observer
