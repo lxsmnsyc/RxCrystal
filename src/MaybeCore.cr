@@ -46,7 +46,7 @@ abstract class Maybe(T)
     return MaybeAmbIndexable(T).new(sources)
   end
 
-  def complete : Maybe(Nil)
+  def self.complete : Maybe(Nil)
     return MaybeComplete.instance
   end
 
@@ -58,16 +58,27 @@ abstract class Maybe(T)
     return MaybeJust(T).new(value)
   end
 
+  def self.never : Maybe(Nil)
+    return MaybeNever.instance
+  end
+
+  def self.wrap(source : MaybeSource(T)) : Maybe(T)
+    if (source.is_a?(Maybe(T)))
+      return source
+    end
+    return MaybeFromSource(T).new(source)
+  end
+
+  def compose(transformer : Proc(Maybe(T), MaybeSource(R))) : Maybe(R) forall R
+    return wrap(transformer.call(self))
+  end
+
   def lift(operator : Proc(MaybeObserver(R), MaybeObserver(T))) : Maybe(R) forall R
     return MaybeLift(T, R).new(self, operator)
   end
 
   def map(mapper : Proc(T, R)) : Maybe(R) forall R
     return MaybeMap(T, R).new(self, mapper)
-  end
-
-  def never : Maybe(Nil)
-    return MaybeNever.instance
   end
 
   def subscribeWith(observer : MaybeObserver(T)) : MaybeObserver(T)
